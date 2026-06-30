@@ -637,7 +637,7 @@ function register() {
   if (selectedRole==='dpsm') {
     const dpsmKey = DPSM_EMAIL[email];
     if (!dpsmKey) {
-      err.textContent='DPSM accounts may only be created using the designated DPSM email addresses (shi@gov.com or orr@gov.com).';
+      err.textContent='DPSM accounts may only be created using the designated DPSM email addresses.';
       err.style.display='block'; return;
     }
     if (users.find(u=>u.dpsmKey===dpsmKey)) {
@@ -728,7 +728,7 @@ function updateCategoryHint() {
   hint.style.display='block';
   hint.innerHTML=`<div class="highlight-bar hb-${o.color}" style="padding:12px 16px;margin-bottom:0">
     <span class="highlight-bar-icon">${key==='shinny'?'👤':'🔄'}</span>
-    <div class="hb-text">This entry will be routed to <strong>${o.firstName}</strong> based on your ministry (${currentUser.ministry}), and automatically marked <strong>${priorityLabel(autoPriority)} priority</strong>. ${catNote}</div>
+    <div class="hb-text">This entry will be routed to <strong>${o.firstName}</strong> based on your ministry (${currentUser.ministry}) and it is marked <strong>${priorityLabel(autoPriority)} priority</strong>. ${catNote}</div>
   </div>`;
 }
 
@@ -737,7 +737,7 @@ function renderDashboard() {
   document.getElementById('dash-greeting').textContent=`Welcome, ${u.name.split(' ')[0]}`;
   if (u.role==='ministry') {
     const mine=entries.filter(e=>e.userId===u.id);
-    document.getElementById('dash-sub').textContent=`Ministry of ${u.ministry} · Logbook overview`;
+    document.getElementById('dash-sub').textContent=`Ministry of ${u.ministry} Request Overview`;
     document.getElementById('dash-highlight-wrap').innerHTML=`<div class="highlight-bar hb-navy" style="margin-bottom:20px"><div class="hb-text">Signed in as an officer of the <strong>Ministry of ${u.ministry}</strong>.</div></div>`;
     document.getElementById('dash-stats').innerHTML=`
       <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value">${mine.length}</div><div class="stat-meta">All time</div></div>
@@ -778,7 +778,7 @@ function miniEntry(e,showMi){
     </div>
     <span class="status-pill ${sc}">${sl}</span>
   </div>`;
-}
+} 
 
 function filterMyEntries(f,el){
   myEntriesFilter=f;
@@ -828,12 +828,11 @@ function catClass(cat){
   return 'cat-ot';
 }
 
-// Priority is automatically derived from the chosen category — no manual selection
 function categoryToPriority(cat){
   if (cat==='Server Security')  return 'High';
-  if (cat==='UI Bug Fixes')     return 'Normal'; // Normal === Medium
+  if (cat==='UI Bug Fixes')     return 'Normal';
   if (cat==='Feature Request')  return 'Low';
-  return 'Low'; // 'Other'
+  return 'Low';
 }
 
 function priorityClass(p){
@@ -969,7 +968,7 @@ function renderFileList(){
       </span>
     </div>`).join('');
   const pendingItems = pendingFileReads > 0
-    ? `<div class="doc-file-item" style="opacity:0.6"><span class="doc-file-name">⏳ Reading ${pendingFileReads} file${pendingFileReads>1?'s':''}…</span></div>`
+    ? `<div class="doc-file-item" style="opacity:0.6"><span class="doc-file-name">Reading ${pendingFileReads} file${pendingFileReads>1?'s':''}…</span></div>`
     : '';
   list.innerHTML = readyItems + pendingItems;
 }
